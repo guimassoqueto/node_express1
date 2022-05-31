@@ -1,5 +1,6 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
+import { join } from 'path';
 
 // Routes
 import admin_route from './routes/admin.route';
@@ -15,9 +16,9 @@ app.use('/admin', admin_route);
 app.use(shop_route);
 
 app.use((req: Request, res: Response, _) => {
-    res.status(404).send('<h1>Page Not Found</h1>');
-})
+    res.status(404).sendFile(join(__dirname, 'views/not-found.html'));
+});
 
-app.listen(PORT)
+app.listen(PORT);
 
 
