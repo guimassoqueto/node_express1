@@ -10,11 +10,14 @@ const app: Express = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(admin_route);
+// filtering path
+app.use('/admin', admin_route);
 app.use(shop_route);
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+app.use((req: Request, res: Response, _) => {
+    res.status(404).send('<h1>Page Not Found</h1>');
 })
+
+app.listen(PORT)
 
 
