@@ -7,7 +7,7 @@
     "start": "node dist/test.js",
     "tsc": "tsc -w",
     "nodemon": "nodemon dist/app.js",
-    "sendfiles": "concurrently \"copyfiles -u 1 src/views/* dist/\" \"copyfiles -u 1 src/public/*/** dist/\""
+    "sendfiles": "concurrently \"copyfiles -u 1 src/views/*/** dist/\" \"copyfiles -u 1 src/views/* dist/\" \"copyfiles -u 1 src/public/css/* dist/\""
   },
   "repository": {
     "type": "git",

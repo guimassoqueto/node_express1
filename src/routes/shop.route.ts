@@ -8,7 +8,8 @@ const shop_route: Router = Router();
 shop_route.get('/', (req: Request, res: Response, _) => {
     products.length && console.log(products);
 
-    res.sendFile(join(__dirname, '../views/shop.html'));
+    // http://expressjs.com/en/api.html#res.render
+    res.render('shop', { products: products });
 })
 
 export default shop_route;

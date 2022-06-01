@@ -1,0 +1,23 @@
+extends layouts/base.pug
+
+block head 
+    title Shop Page
+
+block body
+    main
+        if products.length
+            div.grid
+                each product in products
+                    article.card.product-item 
+                        header.card__header
+                            h1.product__title #{product}
+                        div.card__image
+                            img(src="https://picsum.photos/200", alt=product, srcset="")
+                        div.card__content
+                            h2.product__price $1.99
+                            p.product__description Prod Description
+                        div.card__actions
+                            button.btn Add to Cart
+        else 
+            h1 There is no products
+    script(src="/js/script.js") 

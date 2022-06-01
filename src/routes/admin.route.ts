@@ -6,7 +6,7 @@ const admin_route: Router = Router();
 let products: string[] = [];
 
 admin_route.get('/add-product', (req: Request, res: Response, _) => {
-    res.sendFile(join(__dirname, '../views/add-product.html'));
+    res.render('add-product');
 })
 
 admin_route.post('/add-product', (req: Request, res: Response, _) => {
