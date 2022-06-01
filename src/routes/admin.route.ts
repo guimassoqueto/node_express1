@@ -1,14 +1,18 @@
 import { NextFunction, Router, Request, Response } from 'express';
+import { join } from 'path';
 
 const admin_route: Router = Router();
 
-admin_route.get('/add-product', (req: Request, res: Response, _): Response => {
-    return res.send('<h1>Add Product</h1><form action="/admin/product" method="post"><label for="txt">Text</label><input type="text" name="text" id="txt" required><button type="submit">Send</button></form>');
+let products: string[] = [];
+
+admin_route.get('/add-product', (req: Request, res: Response, _) => {
+    res.sendFile(join(__dirname, '../views/add-product.html'));
 })
 
-admin_route.post('/product', (req: Request, res: Response, _): Response => {
-    const { text, ...rest } = req.body;
-    return res.send(`<h1>Product Page</h1><i>${text}</i>`);
+admin_route.post('/add-product', (req: Request, res: Response, _) => {
+    const product: string = <string>req.body?.title;
+    products.push(product);
+    res.redirect('/');
 })
 
-export default admin_route;
+export { admin_route, products } ;
