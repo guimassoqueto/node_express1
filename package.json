@@ -31,6 +31,9 @@
   "dependencies": {
     "body-parser": "^1.20.0",
     "concurrently": "^7.2.1",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "handlebars": "^4.7.7",
+    "pug": "^3.0.2"
   }
 }
