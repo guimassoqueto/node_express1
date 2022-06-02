@@ -1,15 +1,8 @@
-import { Router, Request, Response } from 'express';
-import { join } from 'path';
-
-import { products } from './admin.route';
+import { Router } from 'express';
+import { getHome } from '../controllers/home.controller';
 
 const shop_route: Router = Router();
 
-shop_route.get('/', (req: Request, res: Response, _) => {
-    products.length && console.log(products);
-
-    // http://expressjs.com/en/api.html#res.render
-    res.render('shop', { products: products });
-})
+shop_route.get('/', getHome)
 
 export default shop_route;
