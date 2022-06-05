@@ -1,3 +1,3 @@
 let productsModel: string[] = [];
 
-export { productsModel };
+export default productsModel;

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { getHome } from '../controllers/home.controller';
 
-const shop_route: Router = Router();
+const home_route: Router = Router();
 
-shop_route.get('/', getHome)
+home_route.get('/', getHome);
 
-export default shop_route;
+export default home_route;

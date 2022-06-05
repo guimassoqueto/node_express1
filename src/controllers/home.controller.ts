@@ -1,11 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import  { productsModel } from '../models/products.model'
+import { Request, Response } from 'express';
 
 // get 
-function getHome(req: Request, res: Response, next: NextFunction): void {
-    productsModel.length && console.log(productsModel);
-    // http://expressjs.com/en/api.html#res.render
-    res.render('shop', { products: productsModel });
+function getHome(req: Request, res: Response) {
+    res.render('home');
 }
 
 export { getHome };
