@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { join } from 'path';
 
@@ -34,5 +34,3 @@ app.use((req: Request, res: Response, _) => {
 });
 
 app.listen(PORT);
-
-

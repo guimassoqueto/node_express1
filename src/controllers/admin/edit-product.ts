@@ -5,7 +5,6 @@ function getAdminEditProduct(req: Request, res: Response) {
 }
 
 function postAdminEditProduct(req: Request, res: Response) {
-    console.log(req.body);
     res.redirect('/');
 }
 

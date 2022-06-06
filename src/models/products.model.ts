@@ -1,3 +1,11 @@
-let productsModel: string[] = [];
+type ProductType = {
+    id: string;
+    title: string;
+    price: number;
+    description: string;
+    image: string;
+}
 
-export default productsModel;
+let products: ProductType[] = [];
+
+export { products, ProductType };
