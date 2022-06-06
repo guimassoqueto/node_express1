@@ -1,0 +1,27 @@
+extends ../layouts/base.pug
+
+block head 
+    link(rel="stylesheet", href="/css/product.css")
+    link(rel="stylesheet", href="/css/forms.css")
+    title Editable Products
+
+block body
+    if products.length 
+        table
+            tr
+                th Product 
+                th Price 
+                th Description
+                th 
+                th 
+            each product in products 
+                tr 
+                    td #{product.title}
+                    td $#{product.price}
+                    td #{product.description}
+                    td 
+                        a(href=`/admin/edit-product/${product.id}`) Edit
+                    td 
+                        a(href=`/admin/delete-product/${product.id}`) Delete
+    else 
+        h1 0 Product
