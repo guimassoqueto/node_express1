@@ -18,3 +18,19 @@
 .form-control input:focus {
     outline-color: #00695c;
 }
+
+.btn_anchor {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.btn_edit {
+    color: blue;
+}
+
+.btn_delete {
+    color: red;
+}

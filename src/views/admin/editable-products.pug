@@ -20,8 +20,9 @@ block body
                     td $#{product.price}
                     td #{product.description}
                     td 
-                        a(href=`/admin/edit-product/${product.id}`) Edit
+                        a.btn_anchor.btn_edit(href=`/admin/edit-product/${product.id}`) Edit
                     td 
-                        a(href=`/admin/delete-product/${product.id}`) Delete
+                        form(action=`/admin/delete-product/${product.id}`, method="post") 
+                            input.btn_anchor.btn_delete(type="submit", value="Delete Product")
     else 
         h1 0 Product
