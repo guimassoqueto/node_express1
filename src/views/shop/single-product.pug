@@ -9,4 +9,5 @@ block body
         img(src=`${product.image}`, alt=`${product.title}`)
         h2 $#{product.price}
         p #{product.description}
-        button.btn Add to Cart
+        form(action=`/shop/product/${product.id}`, method="post")
+            input(type="submit", value="Add to Cart")
