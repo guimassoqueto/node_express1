@@ -1,28 +1,27 @@
-import { Request, Response } from 'express';
-import {} from "../../utils/random_int";
+import { Request, Response } from "express";
+import { Products, Product } from "../../models/product.model";
+import { randomID } from "../../utils/randomID";
 
-import { products } from "../../models/products.model";
-
-function getAdminAddProduct(req: Request, res: Response) {
+function getAddProduct(req: Request, res: Response) {
     res.render('admin/add-product');
 }
 
-function postAdminAddProduct(req: Request, res: Response) {
-    const title = <string>req.body?.title;
-    const description = <string>req.body?.description;
-    const price = parseFloat(req.body?.price);
-    const id = (Math.random() + 1).toString(36).substring(5);
-    const image: string = 'https://picsum.photos/400'
-
-    products.push({
-        id: id,
+function postAddProduct(req: Request, res: Response) {
+    const { title, price, description, image } = req.body;
+    
+    const new_product: Product = {
         title: title,
+        id: randomID(),
         price: price,
         description: description,
         image: image
-    })
-    
+    }
+
+    Products.addProduct(new_product, (status) => {
+        if (status) console.log("ok")
+    });
+
     res.redirect('/');
 }
 
-export { getAdminAddProduct, postAdminAddProduct };
+export { getAddProduct, postAddProduct };

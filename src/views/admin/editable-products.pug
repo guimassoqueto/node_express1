@@ -22,7 +22,8 @@ block body
                     td 
                         a.btn_anchor.btn_edit(href=`/admin/edit-product/${product.id}`) Edit
                     td 
-                        form(action=`/admin/delete-product/${product.id}`, method="post") 
+                        form(action=`/admin/delete-product`, method="post")
+                            input(type="hidden", name="id", value=`${product.id}`)
                             input.btn_anchor.btn_delete(type="submit", value="Delete Product")
     else 
         h1 0 Product

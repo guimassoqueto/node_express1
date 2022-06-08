@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
-import { products } from "../../models/products.model";
+import { Products } from "../../models/product.model";
 
-function postAdminDeleteProduct(req: Request, res: Response) {
-    const { id } = req. params;
-    
-    const prod_index: number = products.findIndex(product => product.id === id);
+function postDeleteProduct(req: Request, res: Response) {
+    const { id } = req.body;
 
-    if (prod_index !== -1) products.splice(prod_index, 1);
+    Products.deleteProduct(id);
 
-    res.redirect('/admin/editable-products');
+    res.redirect('/');
 }
 
-export { postAdminDeleteProduct };
+export { postDeleteProduct };
