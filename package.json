@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/test.js",
+    "test": "tsc --build",
     "tsc": "tsc -w",
     "nodemon": "nodemon dist/app.js",
     "cpfiles": "concurrently \"copyfiles -u 1 src/views/*/** dist/\" \"copyfiles -u 1 src/views/* dist/\" \"copyfiles -u 1 src/public/css/* dist/\" \"copyfiles -u 1 src/models/*.json dist/\""
