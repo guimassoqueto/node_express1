@@ -9,10 +9,10 @@ block body
                         header.card__header
                             h1.product__title #{product.title}
                         div.card__image
-                            img(src="https://picsum.photos/200", alt=product, srcset="")
+                            img(src=`${product.image}`, alt=product, srcset="")
                         div.card__content
                             h2.product__price $#{product.price}
-                            p.product__description Prod Description
+                            p.product__description #{product.description}
                         a(href=`/shop/product/${product.id}`) Learn More
         else 
             h1 There is no products

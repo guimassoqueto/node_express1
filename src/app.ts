@@ -6,9 +6,9 @@ import { join } from 'path';
 import { viewsLocation } from './utils/constants';
 
 // routes
-import home_route from './routes/home.route'
-import admin_route from './routes/admin/admin_routes';
-import shop_route from './routes/shop/shop_route';
+import { home_route } from './routes/home.route'
+import { admin_route } from './routes/admin/admin.route';
+import { shop_route } from './routes/shop/shop.route';
 
 const PORT: number = 3000;
 const app: Express = express();

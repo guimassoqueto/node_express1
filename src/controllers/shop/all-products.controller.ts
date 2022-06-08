@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
-import { products } from "../../models/products.model";
+import { Products } from "../../models/product.model";
 
-function getShopAllProducts(req: Request, res: Response) {
-    res.render('shop/all-products', { products: products });
+function getAllProducts(req: Request, res: Response) {
+    Products.getAllProducts((products) => {
+        res.render('shop/all-products', { products: products });
+    })
 }
 
-export { getShopAllProducts };
+export { getAllProducts }

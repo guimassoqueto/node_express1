@@ -10,7 +10,6 @@ block body
     main
         form.product-form(action="/admin/editable-products", method="post")
             div.form-control
-                input(type="hidden", id="index", name="index", value=`${index}`)
                 input(type="hidden", id="id", name="id", value=`${product.id}`)
                 input(type="hidden", id="image", name="image", value=`${product.image}`)
                 
