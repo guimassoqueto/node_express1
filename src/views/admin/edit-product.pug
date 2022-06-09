@@ -22,4 +22,7 @@ block body
                 label(for="description") Description
                 input#description(type="text", name="description", value=`${product.description}`, required)
 
+                label(for="available") Quantity Available
+                input#available(type="number", name="available", value=`${product.available}`, required)
+
             button(type="submit") Update Product

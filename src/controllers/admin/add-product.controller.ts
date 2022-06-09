@@ -7,21 +7,25 @@ function getAddProduct(req: Request, res: Response) {
 }
 
 function postAddProduct(req: Request, res: Response) {
-    const { title, price, description, image } = req.body;
-    
+    const { title, image, description, price, available } = req.body;
+
     const new_product: Product = {
-        title: title,
         id: randomID(),
-        price: price,
+        title: title,
+        image: image,
         description: description,
-        image: image
+        price: parseFloat(price),
+        available: parseInt(available)
     }
 
-    Products.addProduct(new_product, (status) => {
-        if (status) console.log("ok")
-    });
-
-    res.redirect('/');
+    Products.addProduct(new_product)
+    .then((rows_affected) => {
+        if (rows_affected) res.redirect('/admin/editable-products');
+        else res.redirect('/');
+    })
+    .catch((_) => {
+        res.redirect('/');
+    })
 }
 
 export { getAddProduct, postAddProduct };

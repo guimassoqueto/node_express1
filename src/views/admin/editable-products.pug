@@ -12,6 +12,7 @@ block body
                 th Product 
                 th Price 
                 th Description
+                th Available
                 th 
                 th 
             each product in products 
@@ -19,6 +20,7 @@ block body
                     td #{product.title}
                     td $#{product.price}
                     td #{product.description}
+                    td #{product.available}
                     td 
                         a.btn_anchor.btn_edit(href=`/admin/edit-product/${product.id}`) Edit
                     td 

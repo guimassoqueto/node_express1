@@ -1,69 +1,86 @@
-import { join } from "path";
-import { readFile, writeFile } from "fs";
-
-const JSON_FILE = join(__dirname, 'MOCK_DATA.json');
+import { connect } from "mssql";
+import { mssql_config } from "../utils/sqlserver_config";
 
 type Product = {
     id: string;
     title: string;
-    description: string;
-    price: string;
     image: string;
+    price: number;
+    description: string;
+    available: number;
 }
 
-type ReadProductsCB = (products: Product[]) => void;
-type ReadSingleProductCB = (product: Product | null) => void;
-type AddDelProdCB = (status: null | "ok") => void;
-
-function readProducts(callback: ReadProductsCB) {
-    readFile(JSON_FILE, "utf8", (error, data) => {
-        if (error) callback([]);
-        else callback(JSON.parse(data));
-    })
+function runQuery(query: string) {
+    return connect(mssql_config)
+    .then((pool) => {
+      return pool.query(query);
+    });
 }
 
 class Products {
-    static addProduct(product: Product, callback: AddDelProdCB) {
-        readProducts(products => {
-            products.push(product);
-            writeFile(JSON_FILE, JSON.stringify(products), (err) => {
-                if (err) callback(null);
-                else callback("ok");
-            })
-        })
+    static async getSingleProduct(id: string): Promise<Product[]> {
+        try {
+            const results = await runQuery(`SELECT * FROM tblProducts WHERE id = '${id}'`);
+            const [product, ...rest] = results.recordset;
+            return product
+        }
+        catch(error) {
+            console.error(error);
+            return [];
+        }
     }
 
-    static getAllProducts(callback: ReadProductsCB) {
-        return readProducts(callback);
+    static async getAllProducts(): Promise<Product[]> {
+        try {
+            const results = await runQuery(`SELECT * FROM tblProducts;`);
+            const products = results.recordset;
+            return products
+        }
+        catch(error) {
+            console.error(error);
+            return [];
+        }
+    }
+    
+    static async addProduct(product: Product): Promise<number> {
+        const {id, title, image, price, description, available} = product;
+
+        try {
+            const results = await runQuery(`INSERT INTO tblProducts(id, title, image, price, description, available) VALUES('${id}', '${title}', '${image}', ${price}, '${description}', ${available});`);
+            const [lines_affected, ...rest] = results.rowsAffected;
+            return lines_affected
+        }
+        catch(error) {
+            console.error(error);
+            return 0;
+        }
     }
 
-    static getSingleProduct(id: string, callback: ReadSingleProductCB) {
-        readProducts((products) => {
-            const product_index = products.findIndex( prod => prod.id === id);
-            if (product_index != -1) callback(products[product_index]);
-            else callback(null);
-        })
+    static async updateProduct(product: Product): Promise<number> {
+        const {id, title, image, price, description, available} = product;
+
+        try {
+            const results = await runQuery(`UPDATE tblProducts SET title='${title}', description='${description}', price=${price}, image='${image}', available=${available} WHERE id='${id}'`);
+            const [lines_affected, ...rest] = results.rowsAffected;
+            return lines_affected
+        }
+        catch(error) {
+            console.error(error);
+            return 0;
+        }
     }
 
-    static deleteProduct_(id: string, callback: AddDelProdCB) {
-        readProducts((products) => {
-            const updated_products: Product[] = products.filter((product) => product.id !== id);
-            console.log(updated_products);
-            writeFile(JSON_FILE, JSON.stringify(updated_products), (err) => {
-                if (err) callback(null);
-                else callback("ok");
-            })
-        })
-    }
+    static async deleteProduct(id: string): Promise<number> {
 
-    static deleteProduct(id: string) {
-        readProducts((products) => {
-            const updated_products: Product[] = products.filter((product) => product.id !== id);
-            console.log(updated_products);
-            writeFile(JSON_FILE, JSON.stringify(updated_products), (err) => {
-                if (err) console.log(err);
-            })
-        })
+        try {
+            const results = await runQuery(`DELETE FROM tblProducts WHERE id='${id}';`);
+            const [lines_affected, ...rest] = results.rowsAffected;
+            return lines_affected
+        }
+        catch(error) {
+            console.error(error);
+            return 0;
+        }
     }
 }
 
