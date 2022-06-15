@@ -9,6 +9,7 @@ import { viewsLocation } from './utils/constants';
 import { home_route } from './routes/home.route'
 import { admin_route } from './routes/admin/admin.route';
 import { shop_route } from './routes/shop/shop.route';
+import { error_route } from './routes/404.route';
 
 const PORT: number = 3000;
 const app: Express = express();
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(home_route);
 app.use('/admin', admin_route);
 app.use('/shop', shop_route);
+app.use('/404', error_route);
 
 app.use((req: Request, res: Response, _) => {
     res.status(404).render('404');

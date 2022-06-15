@@ -4,35 +4,33 @@ import { Products, Product } from "../../models/product.model";
 function getEditProduct(req: Request, res: Response) {
     const { id } = req.params;
 
-    Products.getSingleProduct(id)
-    .then((product) => {
-        if (product) res.render('admin/edit-product', { product: product })
-        else res.redirect('/');
-    })
-    .catch((_) => {
-        res.redirect('/');
-    })
+    Products.getSingleProduct(parseInt(id))
+        .then( product => {
+            res.render('admin/edit-product', { product: product })
+        })
+        .catch( ( _ ) => {
+            res.redirect('/404');
+        })
 }
 
 function postEditableProducts(req: Request, res: Response) {
     const { id, title, price, image, description, available } = req.body;
     const updated_product: Product = {
-        id: id,
+        id: parseInt(id),
         title: title,
-        price: price,
+        price: parseFloat(price),
         image: image,
         description: description,
-        available: available
-    }
+        available: parseInt(available)
+    };
 
-    Products.updateProduct(updated_product)
-    .then((affected_rows) => {
-        if(affected_rows) res.redirect('/admin/editable-products');
-        else res.redirect('/');
-    })
-    .catch((_) => {
-        res.redirect('/');
-    })
+    Products.updateProduct( updated_product )
+        .then(product => {
+            res.redirect('/admin/editable-products');
+        })
+        .catch( _ => {
+            res.redirect('/');
+        })
 }
 
 export { getEditProduct, postEditableProducts };

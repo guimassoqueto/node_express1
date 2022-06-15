@@ -1,8 +1,7 @@
-import { connect } from "mssql";
-import { mssql_config } from "../utils/sqlserver_config";
+import { PrismaClient } from "@prisma/client";
 
 type Product = {
-    id: string;
+    id: number,
     title: string;
     image: string;
     price: number;
@@ -10,18 +9,14 @@ type Product = {
     available: number;
 }
 
-function runQuery(query: string) {
-    return connect(mssql_config)
-    .then((pool) => {
-      return pool.query(query);
-    });
-}
+const prisma = new PrismaClient();
 
 class Products {
-    static async getSingleProduct(id: string): Promise<Product[]> {
+    static async getSingleProduct(id: number) {
         try {
-            const results = await runQuery(`SELECT * FROM tblProducts WHERE id = '${id}'`);
-            const [product, ...rest] = results.recordset;
+            const product = prisma.products.findUnique({
+                where: { id: id }
+            })
             return product
         }
         catch(error) {
@@ -30,11 +25,10 @@ class Products {
         }
     }
 
-    static async getAllProducts(): Promise<Product[]> {
+    static async getAllProducts(): Promise<Products[]> {
         try {
-            const results = await runQuery(`SELECT * FROM tblProducts;`);
-            const products = results.recordset;
-            return products
+            const products = await prisma.products.findMany();
+            return products;
         }
         catch(error) {
             console.error(error);
@@ -42,44 +36,56 @@ class Products {
         }
     }
     
-    static async addProduct(product: Product): Promise<number> {
-        const {id, title, image, price, description, available} = product;
-
+    static async addProduct(product: Product): Promise<Product | unknown> {
         try {
-            const results = await runQuery(`INSERT INTO tblProducts(id, title, image, price, description, available) VALUES('${id}', '${title}', '${image}', ${price}, '${description}', ${available});`);
-            const [lines_affected, ...rest] = results.rowsAffected;
-            return lines_affected
+            const new_product = prisma.products.create({
+                data: {
+                    title: product.title,
+                    image: product.image,
+                    price: product.price,
+                    description: product.description,
+                    available: product.available
+                }
+            })
+            return new_product
         }
         catch(error) {
-            console.error(error);
-            return 0;
+            return error;
         }
     }
 
-    static async updateProduct(product: Product): Promise<number> {
-        const {id, title, image, price, description, available} = product;
-
+    static async updateProduct(product: Product): Promise<Products | unknown> {
         try {
-            const results = await runQuery(`UPDATE tblProducts SET title='${title}', description='${description}', price=${price}, image='${image}', available=${available} WHERE id='${id}'`);
-            const [lines_affected, ...rest] = results.rowsAffected;
-            return lines_affected
+            const updated_product = await prisma.products.update({
+                where: {
+                  id: product.id,
+                },
+                data: {
+                  title: product.title,
+                  description: product.description,
+                  price: product.price,
+                  image: product.image,
+                  available: product.available
+                },
+            });
+            return updated_product
         }
-        catch(error) {
-            console.error(error);
-            return 0;
+        catch (error) {
+            return error
         }
     }
 
-    static async deleteProduct(id: string): Promise<number> {
-
+    static async deleteProduct(id: number): Promise<Products | unknown> {
         try {
-            const results = await runQuery(`DELETE FROM tblProducts WHERE id='${id}';`);
-            const [lines_affected, ...rest] = results.rowsAffected;
-            return lines_affected
+            const removed = await prisma.products.delete({
+                where: {
+                    id: id,
+                }
+            })
+            return removed
         }
-        catch(error) {
-            console.error(error);
-            return 0;
+        catch (error) {
+            return error
         }
     }
 }

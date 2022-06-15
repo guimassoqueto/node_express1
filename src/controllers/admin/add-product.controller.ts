@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Products, Product } from "../../models/product.model";
-import { randomID } from "../../utils/randomID";
 
 function getAddProduct(req: Request, res: Response) {
     res.render('admin/add-product');
@@ -10,7 +9,7 @@ function postAddProduct(req: Request, res: Response) {
     const { title, image, description, price, available } = req.body;
 
     const new_product: Product = {
-        id: randomID(),
+        id: 0,
         title: title,
         image: image,
         description: description,
@@ -19,13 +18,10 @@ function postAddProduct(req: Request, res: Response) {
     }
 
     Products.addProduct(new_product)
-    .then((rows_affected) => {
-        if (rows_affected) res.redirect('/admin/editable-products');
-        else res.redirect('/');
-    })
-    .catch((_) => {
-        res.redirect('/');
-    })
+        .then( ( added_product ) => {
+            res.redirect('/shop/all-products');
+        })
+        .catch( _ => res.redirect('/404') )
 }
 
 export { getAddProduct, postAddProduct };

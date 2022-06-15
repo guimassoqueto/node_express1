@@ -3,12 +3,12 @@ import { Products } from "../../models/product.model";
 
 function getAllProducts(req: Request, res: Response) {
     Products.getAllProducts()
-    .then((product) => {
-        res.render('shop/all-products', { products: product });
-    })
-    .catch((_) => {
-        res.redirect('/');
-    })
+        .then( ( products: Products[] ) => {
+            res.render('shop/all-products', { products })
+        })
+        .catch( _ => {
+            res.redirect('/404');
+        })
 }
 
 export { getAllProducts }

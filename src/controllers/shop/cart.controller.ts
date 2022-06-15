@@ -7,7 +7,7 @@ function getCart(req: Request, res: Response) {
 
 function postCart(req: Request, res: Response) {
     const { id } = req.body;
-    res.redirect('/')
+    res.redirect('/404')
 }
 
 export { getCart, postCart };
