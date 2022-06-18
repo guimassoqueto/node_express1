@@ -21,7 +21,8 @@ function postEditableProducts(req: Request, res: Response) {
         price: parseFloat(price),
         image: image,
         description: description,
-        available: parseInt(available)
+        available: parseInt(available),
+        createdBy: req.currentUserId
     };
 
     Products.updateProduct( updated_product )

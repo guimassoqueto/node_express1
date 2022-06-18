@@ -11,12 +11,23 @@ datasource db {
 }
 
 model Products {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  title         String   @db.VarChar(255)
-  image         String   @db.VarChar(100)
-  price         Decimal  @db.Decimal(7,2)
-  description   String   @db.VarChar(max)
-  available     Int      @db.Int @default(0)
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String   @db.VarChar(255)
+  image       String   @db.VarChar(100)
+  price       Decimal  @db.Decimal(7, 2)
+  description String   @db.VarChar(max)
+  available   Int      @default(0) @db.Int
+  user        User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  createdBy   Int
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(100)
+  products  Products[]
 }

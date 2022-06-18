@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { User } from "./user.model";
 
 type Product = {
     id: number,
@@ -7,6 +8,7 @@ type Product = {
     price: number;
     description: string;
     available: number;
+    createdBy: number;
 }
 
 const prisma = new PrismaClient();
@@ -44,7 +46,8 @@ class Products {
                     image: product.image,
                     price: product.price,
                     description: product.description,
-                    available: product.available
+                    available: product.available,
+                    createdBy: product.createdBy
                 }
             })
             return new_product

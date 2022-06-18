@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { join } from 'path';
 
@@ -10,6 +10,9 @@ import { home_route } from './routes/home.route'
 import { admin_route } from './routes/admin/admin.route';
 import { shop_route } from './routes/shop/shop.route';
 import { error_route } from './routes/404.route';
+
+// custom middlewares
+import { setDefaultuser } from './middlewares/associateUser.middleware';
 
 const PORT: number = 3000;
 const app: Express = express();
@@ -23,7 +26,11 @@ app.set('views', viewsLocation);
 // static files
 app.use(express.static(join(__dirname, 'public')))
 
+// body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// setting the dafault user
+app.use(setDefaultuser);
 
 // routes
 app.use(home_route);

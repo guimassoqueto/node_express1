@@ -14,12 +14,13 @@ function postAddProduct(req: Request, res: Response) {
         image: image,
         description: description,
         price: parseFloat(price),
-        available: parseInt(available)
+        available: parseInt(available),
+        createdBy: 1
     }
 
     Products.addProduct(new_product)
         .then( ( added_product ) => {
-            res.redirect('/shop/all-products');
+            res.redirect('/shop/all-products')
         })
         .catch( _ => res.redirect('/404') )
 }
