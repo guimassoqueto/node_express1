@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Products, Product } from "../../models/product.model";
+import { Products, TProduct } from "../../models/product.model";
 
 function getEditProduct(req: Request, res: Response) {
     const { id } = req.params;
@@ -15,7 +15,7 @@ function getEditProduct(req: Request, res: Response) {
 
 function postEditableProducts(req: Request, res: Response) {
     const { id, title, price, image, description, available } = req.body;
-    const updated_product: Product = {
+    const updated_product: TProduct = {
         id: parseInt(id),
         title: title,
         price: parseFloat(price),

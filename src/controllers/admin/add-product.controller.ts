@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Products, Product } from "../../models/product.model";
+import { Products, TProduct } from "../../models/product.model";
 
 function getAddProduct(req: Request, res: Response) {
     res.render('admin/add-product');
@@ -8,7 +8,7 @@ function getAddProduct(req: Request, res: Response) {
 function postAddProduct(req: Request, res: Response) {
     const { title, image, description, price, available } = req.body;
 
-    const new_product: Product = {
+    const new_product: TProduct = {
         id: 0,
         title: title,
         image: image,

@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { User } from "./user.model";
 
-type Product = {
+type TProduct = {
     id: number,
     title: string;
     image: string;
@@ -16,7 +15,7 @@ const prisma = new PrismaClient();
 class Products {
     static async getSingleProduct(id: number) {
         try {
-            const product = prisma.products.findUnique({
+            const product = prisma.product.findUnique({
                 where: { id: id }
             })
             return product
@@ -29,7 +28,7 @@ class Products {
 
     static async getAllProducts(): Promise<Products[]> {
         try {
-            const products = await prisma.products.findMany();
+            const products = await prisma.product.findMany();
             return products;
         }
         catch(error) {
@@ -38,9 +37,9 @@ class Products {
         }
     }
     
-    static async addProduct(product: Product): Promise<Product | unknown> {
+    static async addProduct(product: TProduct): Promise<TProduct | unknown> {
         try {
-            const new_product = prisma.products.create({
+            const new_product = prisma.product.create({
                 data: {
                     title: product.title,
                     image: product.image,
@@ -57,9 +56,9 @@ class Products {
         }
     }
 
-    static async updateProduct(product: Product): Promise<Products | unknown> {
+    static async updateProduct(product: TProduct): Promise<Products | unknown> {
         try {
-            const updated_product = await prisma.products.update({
+            const updated_product = await prisma.product.update({
                 where: {
                   id: product.id,
                 },
@@ -80,7 +79,7 @@ class Products {
 
     static async deleteProduct(id: number): Promise<Products | unknown> {
         try {
-            const removed = await prisma.products.delete({
+            const removed = await prisma.product.delete({
                 where: {
                     id: id,
                 }
@@ -93,4 +92,4 @@ class Products {
     }
 }
 
-export { Product, Products };
+export { TProduct, Products };

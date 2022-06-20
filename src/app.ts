@@ -1,4 +1,4 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { join } from 'path';
 
@@ -12,7 +12,7 @@ import { shop_route } from './routes/shop/shop.route';
 import { error_route } from './routes/404.route';
 
 // custom middlewares
-import { setDefaultuser } from './middlewares/associateUser.middleware';
+import { setDefaultUserCart } from './middlewares/associateUser.middleware';
 
 const PORT: number = 3000;
 const app: Express = express();
@@ -30,7 +30,7 @@ app.use(express.static(join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // setting the dafault user
-app.use(setDefaultuser);
+app.use(setDefaultUserCart);
 
 // routes
 app.use(home_route);

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-type User = {
+type TUser = {
     id: number,
     email: string,
     name: string,
@@ -9,7 +9,28 @@ type User = {
 const prisma = new PrismaClient();
 
 class Users {
-    static async getSingleUser(id: number): Promise<User | null | unknown> {
+    static async getOrCreateUser() {
+        try {
+            const user: TUser = await prisma.user.upsert({
+                where: {
+                  id: 1,
+                },
+                update: {},
+                create: {
+                  email: 'viola@prisma.io',
+                  name: 'Viola the Magnificent',
+                },
+            });
+            
+            return user
+        }
+        catch (error) {
+            return error
+        }
+    }
+
+
+    static async getSingleUser(id: number): Promise<TUser | null | unknown> {
         try {
             const user = prisma.user.findUnique({
                 where: {
@@ -33,7 +54,7 @@ class Users {
         }
     }
     
-    static async addUser(user: User) {
+    static async addUser(user: TUser) {
         try {
             const new_user = await prisma.user.create({
                 data: {
@@ -68,4 +89,4 @@ class Users {
     }
 }
 
-export { Users, User }
+export { Users, TUser }
