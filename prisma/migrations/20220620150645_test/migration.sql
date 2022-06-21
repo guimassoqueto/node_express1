@@ -33,6 +33,21 @@ CREATE TABLE [dbo].[ProductsOnCart] (
     CONSTRAINT [ProductsOnCart_pkey] PRIMARY KEY CLUSTERED ([productId],[userId])
 );
 
+-- CreateTable
+CREATE TABLE [dbo].[Orders] (
+    [id] INT NOT NULL IDENTITY(1,1),
+    [orderOwner] INT NOT NULL,
+    [orderDate] DATETIME2 NOT NULL CONSTRAINT [Orders_orderDate_df] DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT [Orders_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[OrderDetails] (
+    [productId] INT NOT NULL,
+    [orderId] INT NOT NULL,
+    CONSTRAINT [OrderDetails_pkey] PRIMARY KEY CLUSTERED ([productId],[orderId])
+);
+
 -- AddForeignKey
 ALTER TABLE [dbo].[Product] ADD CONSTRAINT [Product_createdBy_fkey] FOREIGN KEY ([createdBy]) REFERENCES [dbo].[User]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -41,6 +56,15 @@ ALTER TABLE [dbo].[ProductsOnCart] ADD CONSTRAINT [ProductsOnCart_productId_fkey
 
 -- AddForeignKey
 ALTER TABLE [dbo].[ProductsOnCart] ADD CONSTRAINT [ProductsOnCart_userId_fkey] FOREIGN KEY ([userId]) REFERENCES [dbo].[User]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Orders] ADD CONSTRAINT [Orders_orderOwner_fkey] FOREIGN KEY ([orderOwner]) REFERENCES [dbo].[User]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[OrderDetails] ADD CONSTRAINT [OrderDetails_productId_fkey] FOREIGN KEY ([productId]) REFERENCES [dbo].[Product]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[OrderDetails] ADD CONSTRAINT [OrderDetails_orderId_fkey] FOREIGN KEY ([orderId]) REFERENCES [dbo].[Orders]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 COMMIT TRAN;
 

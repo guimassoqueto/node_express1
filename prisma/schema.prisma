@@ -22,6 +22,7 @@ model Product {
   user           User             @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   createdBy      Int
   ProductsOnCart ProductsOnCart[]
+  OrderDetails   OrderDetails[]
 }
 
 model User {
@@ -33,14 +34,8 @@ model User {
   products       Product[]
   // cart           Cart?
   ProductsOnCart ProductsOnCart[]
+  Orders         Orders[]
 }
-
-// model Cart {
-//   id             Int              @id @default(autoincrement())
-//   user           User             @relation(fields: [cartOwner], references: [id], onDelete: NoAction)
-//   cartOwner      Int              @unique
-//   ProductsOnCart ProductsOnCart[]
-// }
 
 model ProductsOnCart {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -51,4 +46,21 @@ model ProductsOnCart {
   userId    Int
 
   @@id([productId, userId])
+}
+
+model Orders {
+  id           Int            @id @default(autoincrement())
+  user         User           @relation(fields: [orderOwner], references: [id], onDelete: Cascade)
+  orderOwner   Int
+  orderDate    DateTime       @default(now())
+  OrderDetails OrderDetails[]
+}
+
+model OrderDetails {
+  product   Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productId Int
+  order     Orders  @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orderId   Int
+
+  @@id([productId, orderId])
 }

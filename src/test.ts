@@ -1,5 +1,9 @@
-import { ProductOnCart } from "./models/cart.model";
+import { Order } from "./models/order.model";
 
-ProductOnCart.getProductsOnCart(1)
-.then(p => console.log(p))
-.catch(err => console.error(err))
+Order.createOrder(1)
+    .then( created_order => {
+        console.log(created_order);
+    })
+    .catch( error => {
+        console.error(error);
+    })

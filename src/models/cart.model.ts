@@ -1,13 +1,16 @@
 import { PrismaClient } from "@prisma/client";
+import { TProduct } from "../models/product.model";
 
 type TProductOnCart = {
     productId: number;
     cartId: number;
+    product: TProduct;
 }
 
 const prisma = new PrismaClient();
 
 class ProductOnCart {
+    id: any;
     static async addToProductsOnCart(product_id: number, user_id: number) {
         try {
             const prod_on_cart = await prisma.productsOnCart.create({
