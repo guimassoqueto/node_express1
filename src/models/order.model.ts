@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 class Order {
     static async createOrder(order_owner_id: number) {
         try {
-            await prisma.orders.create({
+            const new_order = await prisma.orders.create({
                 data: {
                     orderOwner: order_owner_id
                 },
@@ -24,7 +24,7 @@ class Order {
             })
 
             const order_details_data = cart_items.map( item => {
-                return {...item, orderId: 1}
+                return { ...item, orderId: new_order.id }
             })
 
             const created_orderDetails = await prisma.orderDetails.createMany({

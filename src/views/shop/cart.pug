@@ -20,6 +20,8 @@ block body
                             input(type="hidden", name="product_id", value=`${product.productId}`)
                             input(type="submit", value="Remove")
         h2 Cart Total: $#{total}
+        form(action="/shop/new-order", method="post")
+            input(type="submit", value="Checkout")
     else
         h1 Your cart is empty 
         a(href="/shop/all-products") Shop Something
