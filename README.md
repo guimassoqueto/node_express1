@@ -4,7 +4,7 @@ Store Application project built in NodeJS. For a more robust app, with auth, coo
 
 ## How to install:
  1. Clone the repository:
-`git clone https://github.com/guimassoqueto/node_express1.git`
+`git clone https://github.com/guimassoqueto/web_store_SQL.git`
 
 2. Install npm dependencies:
 `npm install`
